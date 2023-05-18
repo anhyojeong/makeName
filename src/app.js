@@ -1,20 +1,25 @@
-const APIKEY = config.APIKEY;
+const ApiKey = config.APIKEY;
+//const APIKEY = "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";
 const URL = "https://api.openai.com/v1/engines/davinci-codex";
 
 const form = document.getElementById("getInfo-form");
 const lang = document.getElementById("lang");
 const role = document.getElementById("role");
+const list = document.getElementById("newName");
 
 //api 호출
 function getName(e){
     e.preventDefault();
-    const PROMPT = `${lang.value}언어를 사용한 함수의 이름을 생성하려 합니다. 함수의 역할은 ${role.value}입니다. 몇 가지 예시를 보여주세요.`;
+
+    deleteNameList();
+
+    const PROMPT = `${lang.value}언어를 사용한 함수의 이름을 생성하려 합니다. 함수의 역할은 ${role.value}입니다. 5가지 예시를 보여주세요.`;
 
     fetch("https://api.openai.com/v1/completions",{
         method : "post",
         headers:{
             "Content-Type": "application/json",
-            Authorization: `Bearer ${APIKEY}`
+            Authorization: `Bearer ${ApiKey}`
         },
         body:JSON.stringify({
             model: "text-davinci-003",
@@ -35,18 +40,21 @@ function getName(e){
     .catch((error) => console.log(error.message));
 }
 
-//이름 리스트 저장
+//받아온 이름들 분리
 function setNameList(e){
     let namesWords = e.split((/\n\d+\.\s+/));
     printNameList(namesWords);
 }
 
+//이름 리스트 삭제
+function deleteNameList(){
+    while(list.firstChild){
+        list.removeChild(list.firstChild);
+    }
+}
+
 //이름 리스트 출력
 function printNameList(arr){
-    const nameList = arr;
-    console.log(nameList);
-
-    const list = document.getElementById("newName");
     arr.slice(1).forEach(value => {
         const li = document.createElement("li");
         li.innerText = value;
