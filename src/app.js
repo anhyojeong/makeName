@@ -1,5 +1,4 @@
 const ApiKey = config.APIKEY;
-//const APIKEY = "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";
 const URL = "https://api.openai.com/v1/engines/davinci-codex";
 
 const form = document.getElementById("getInfo-form");
@@ -59,6 +58,7 @@ function printNameList(arr){
         const li = document.createElement("li");
         li.innerText = value;
         list.appendChild(li);
+        li.id="nameList";
     })
 }
 

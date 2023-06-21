@@ -4,25 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/style.css"> 
     <title>Document</title>
 </head>
 <body>
-    <h1>생성하기</h1>
+    <h1>이름 만들기</h1>
     <form id ="getInfo-form">
-        <label for ="laguage"> 
-            사용 언어 : 
-            <input 
-                type = "text"
-                id ="lang"
-            >
-        </label>
-        <label for ="laguage"> 
-            역할 : 
-            <input 
-                type  = "text"
-                id = "role">
-        </label>
-        <button type ="submit">함수 생성</button>
+        <div id ="inputArea">
+            <label for ="laguage"> 
+                사용 언어 : 
+                <input 
+                    type = "text"
+                    id ="lang"
+                >
+            </label>
+            <label for ="laguage"> 
+                역할 : 
+                <input 
+                    type  = "text"
+                    id = "role">
+            </label>
+        </div>
+        <div id ="choiceArea">
+            <button type ="submit">함수이름생성</button>
+            <button type ="submit">변수이름생성</button>
+        </div>
     </form>
     <div>
         <ul id ="newName"></ul>

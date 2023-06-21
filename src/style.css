@@ -1,0 +1,56 @@
+:root{
+    /*색*/
+    --navy:#212A3E;
+    --light-navy:#394867;
+    /*크기*/
+    --margin: 10px;
+     --font-size: 15px;
+}
+
+*{
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--navy);
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1{
+    color: var(--navy) ;
+}
+/*입력*/
+#inputArea{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--light-navy);
+}
+#inputArea input{
+    border : none;
+    border-bottom: 1px solid var(--navy);
+    margin: var(--margin);
+}
+#inputArea input:focus{
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border-bottom: 1px solid var(--navy);
+}
+
+/*버튼선택*/
+#choiceArea button{
+    border-radius: 10px;
+    border: none;
+    margin:calc(var(--margin)*2) var(--margin);
+    font-size: var(--font-size) ;
+    padding: 3px 20px;
+    color: var(--light-navy);
+}
+
+/*출력된 이름*/
+#nameList{
+    margin:calc(var(--margin)) var(--margin);
+
+}
