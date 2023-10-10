@@ -1,5 +1,5 @@
 let ApiKey = "";
-const testApiKey= config.APIKEY;
+//const testApiKey= config.APIKEY;
 const API_URL = "https://api.openai.com/v1/completions";
 
 const form = document.getElementById("getInfoForm");
@@ -12,7 +12,6 @@ const keyArea = document.getElementById('keyArea');
 
 //api 호출
 function getName(prompt){
-    console.log(ApiKey);
     fetch(API_URL,{
         method : "post",
         headers:{
@@ -91,12 +90,11 @@ ApiKeyBtn.addEventListener("click", function () {
 
 });
 
-//이름 생성 버튼 클릭
+//이름 생성 버튼
 form.addEventListener("submit", function (e) {
     e.preventDefault();
     deleteNameList();
     const buttonValue = e.submitter.value;
     const prompt = `${buttonValue} 이름을 5가지 생성해줘. 언어는 "${language.value}", 역할은 " ${role.value}".`;
-    console.log(prompt);
     getName(prompt);
 });
