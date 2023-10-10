@@ -1,22 +1,19 @@
-let ApiKey = "";
-//const testApiKey= config.APIKEY;
 const API_URL = "https://api.openai.com/v1/completions";
-
+ 
 const form = document.getElementById("getInfoForm");
 const language = document.getElementById("language");
 const role = document.getElementById("role");
 const list = document.getElementById("newNameList");
-const ApiKeyBtn = document.getElementById("submitApiKeyBtn");
 const apiKeyInput = document.getElementById("apiKeyInput");
-const keyArea = document.getElementById('keyArea');
 
 //api 호출
 function getName(prompt){
+    const KEY =apiKeyInput.value;
     fetch(API_URL,{
         method : "post",
         headers:{
             "Content-Type": "application/json",
-            Authorization: `Bearer ${ApiKey}`
+            Authorization: `Bearer ${KEY}`
         },
         body:JSON.stringify({
             model: "gpt-3.5-turbo",
@@ -36,7 +33,7 @@ function getName(prompt){
 
 //받아온 이름들 분리
 function setNameList(e){
-    let namesWords = e.split((/\n\d+\.\s+/));
+    let namesWords = e.split((/\n\d+\.\s+/));``
     printNameList(namesWords);
 }
 
@@ -55,40 +52,7 @@ function printNameList(arr){
         list.appendChild(li);
         li.id="nameList";
     })
-}
-//키 저장
-function saveApiKey(apiKey) {
-    localStorage.setItem("APIKEY", apiKey);
-}
-
-//키 불러오기
-function loadApiKey() {
-    ApiKey = localStorage.getItem("APIKEY");
-    return ApiKey;
-}
-
-//로딩 시 저장된 키 있는지 확인+채움
-window.addEventListener("load", function () {
-    const savedApiKey = loadApiKey();
-    if (savedApiKey) {
-        apiKeyInput.value = savedApiKey;
-    }
-});
-
-//키 확인 버튼 클릭
-ApiKeyBtn.addEventListener("click", function () {
-    const apiKey = apiKeyInput.value.trim(); // 공백 제거
-
-    keyArea.classList.add('hidden');
-    getInfoForm.classList.remove('hidden');
-
-    if (apiKey) {
-        saveApiKey(apiKey);
-        apiKeyInput.value = apiKey; // 입력 필드에 저장된 API 키 표시
-        alert("API 키가 저장되었습니다.");
-    }
-
-});
+} 
 
 //이름 생성 버튼
 form.addEventListener("submit", function (e) {
