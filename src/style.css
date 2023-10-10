@@ -34,7 +34,6 @@ h1{
 button{
     border-radius: 10px;
     border: none;
-    margin:calc(var(--margin)*2) var(--margin);
     font-size: var(--font-size) ;
     padding: 3px 20px;
     color: var(--light-navy);
@@ -51,4 +50,20 @@ button{
 /*출력된 이름*/
 #nameList{
     margin:calc(var(--margin)) var(--margin);
+}
+
+#saveApiMsg, #errMsg{
+    display: inline-block;
+    text-align: center;
+    color: var(--light-navy);
+    font-size: 0.8em;
+}
+
+.inputApiArea{
+    display: flex;
+    align-items: center;
+}
+
+.makeBtn{
+    margin:calc(var(--margin)*2) var(--margin);
 }
