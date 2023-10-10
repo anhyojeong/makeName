@@ -1,40 +1,36 @@
-const ApiKey = config.APIKEY;
-const URL = "https://api.openai.com/v1/engines/davinci-codex";
+let ApiKey = "";
+const testApiKey= config.APIKEY;
+const API_URL = "https://api.openai.com/v1/completions";
 
-const form = document.getElementById("getInfo-form");
-const lang = document.getElementById("lang");
+const form = document.getElementById("getInfoForm");
+const language = document.getElementById("language");
 const role = document.getElementById("role");
-const list = document.getElementById("newName");
+const list = document.getElementById("newNameList");
+const ApiKeyBtn = document.getElementById("submitApiKeyBtn");
+const apiKeyInput = document.getElementById("apiKeyInput");
+const keyArea = document.getElementById('keyArea');
 
 //api 호출
-function getName(e){
-    e.preventDefault();
-
-    deleteNameList();
-
-    const PROMPT = `${lang.value}언어를 사용한 함수의 이름을 생성하려 합니다. 함수의 역할은 ${role.value}입니다. 5가지 예시를 보여주세요.`;
-
-    fetch("https://api.openai.com/v1/completions",{
+function getName(prompt){
+    console.log(ApiKey);
+    fetch(API_URL,{
         method : "post",
         headers:{
             "Content-Type": "application/json",
             Authorization: `Bearer ${ApiKey}`
         },
         body:JSON.stringify({
-            model: "text-davinci-003",
-            prompt: PROMPT,
-            max_tokens: 50,
-            temperature: 0,
-            top_p: 1,
-            n: 1,
-            stream: false,
-            logprobs: null,
-            //stop: "\n"
+            model: "gpt-3.5-turbo",
+            prompt: prompt,
           }),
     })
     .then((response) => response.json())
     .then((result) => {
-       setNameList(result.choices[0].text);
+        if (result && result.choices && result.choices.length > 0) {
+            setNameList(result.choices[0].text);
+        } else {
+            alert("요청이 유효하지않습니다.\n1. 입력된 API 키를 다시 확인해주세요.\n2. API 키의 유효기간과 사용량을 확인해주세요.");
+        }
     })
     .catch((error) => console.log(error.message));
 }
@@ -61,5 +57,46 @@ function printNameList(arr){
         li.id="nameList";
     })
 }
+//키 저장
+function saveApiKey(apiKey) {
+    localStorage.setItem("APIKEY", apiKey);
+}
 
-form.addEventListener("submit",getName);
+//키 불러오기
+function loadApiKey() {
+    ApiKey = localStorage.getItem("APIKEY");
+    return ApiKey;
+}
+
+//로딩 시 저장된 키 있는지 확인+채움
+window.addEventListener("load", function () {
+    const savedApiKey = loadApiKey();
+    if (savedApiKey) {
+        apiKeyInput.value = savedApiKey;
+    }
+});
+
+//키 확인 버튼 클릭
+ApiKeyBtn.addEventListener("click", function () {
+    const apiKey = apiKeyInput.value.trim(); // 공백 제거
+
+    keyArea.classList.add('hidden');
+    getInfoForm.classList.remove('hidden');
+
+    if (apiKey) {
+        saveApiKey(apiKey);
+        apiKeyInput.value = apiKey; // 입력 필드에 저장된 API 키 표시
+        alert("API 키가 저장되었습니다.");
+    }
+
+});
+
+//이름 생성 버튼 클릭
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    deleteNameList();
+    const buttonValue = e.submitter.value;
+    const prompt = `${buttonValue} 이름을 5가지 생성해줘. 언어는 "${language.value}", 역할은 " ${role.value}".`;
+    console.log(prompt);
+    getName(prompt);
+});
