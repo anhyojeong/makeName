@@ -1,32 +1,43 @@
-const API_URL = "https://api.openai.com/v1/completions";
-
 const form = document.getElementById("getInfoForm");
 const language = document.getElementById("language");
 const role = document.getElementById("role");
 const list = document.getElementById("newNameList");
 const apiKeyInput = document.getElementById("apiKeyInput");
-const apiBtn =document.getElementById("saveApiBtn");
+const apiBtn = document.getElementById("saveApiBtn");
+
+const API_URL = "https://api.openai.com/v1/completions";
+const API_MODEL = "text-davinci-003";
+let API_prompt = "";
+
+//요청할 때 쓰는 Body
+function requestData (){
+  console.log(API_MODEL +":"+API_prompt);
+  const body = {
+    model: API_MODEL,
+    prompt: API_prompt,
+    max_tokens: 50,
+    temperature: 0,
+    top_p: 1,
+    n: 1,
+    stream: false,
+    logprobs: null,
+  }
+
+  return body;
+}
 
 //api 호출
-function getName(prompt) {
+function getName() {
   const KEY = apiKeyInput.value;
+  const body = requestData();
 
-  fetch(API_URL, {
-    method: "post",
+  fetch(`${API_URL}`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${KEY}`,
     },
-    body: JSON.stringify({
-      model: "text-davinci-003",
-      prompt: `${prompt}`,
-      max_tokens: 50,
-      temperature: 0,
-      top_p: 1,
-      n: 1,
-      stream: false,
-      logprobs: null,
-    }),
+    body: JSON.stringify(body),
   })
     .then((response) => response.json())
     .then((result) => {
@@ -36,20 +47,21 @@ function getName(prompt) {
         printErrorMessage("ApiErr");
       }
     })
-    .catch((error) => console.log(error.message.waring));
+    .catch((error) => console.log(error.message.warning));
 }
 
 //에러 출력
-function printErrorMessage(errType){
-    deleteResultList();
-    const span = document.createElement("span");
+function printErrorMessage(errType) {
+  deleteResultList();
+  const span = document.createElement("span");
 
-    (errType == "ApiErr")?
-    (span.innerText = "😢잘못된 요청입니다😢\n 입력된 API 키를 다시 확인하시거나 API 키의 유효기간과 사용량을 확인해주세요."):
-    (span.innerText = "🙇‍♀️언어와 역할을 모두 입력해주세요🙇‍♀️")
+  errType == "ApiErr"
+    ? (span.innerText =
+        "😢잘못된 요청입니다😢\n 입력된 API 키를 다시 확인하시거나 API 키의 유효기간과 사용량을 확인해주세요.")
+    : (span.innerText = "🙇‍♀️언어와 역할을 모두 입력해주세요🙇‍♀️");
 
-    list.appendChild(span);
-    span.id = "errMsg";
+  list.appendChild(span);
+  span.id = "errMsg";
 }
 
 //받아온 이름들 분리
@@ -75,20 +87,19 @@ function printNameList(arr) {
     li.id = "nameList";
   });
 }
-function checkInput(){
-    return (language.value.trim() != "") && (role.value.trim() != "")
+function checkInput() {
+  return language.value.trim() != "" && role.value.trim() != "";
 }
 
 //이름 생성 버튼
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-  if(checkInput()){
+  if (checkInput()) {
     deleteResultList();
     const buttonValue = e.submitter.value;
-    const prompt = `Make 5 ${buttonValue} names in English. language is ${language.value}, the ${buttonValue}'s role is ${role.value}.`;
-    getName(prompt); 
-  }
-  else{
+    API_prompt = `Make 5 ${buttonValue} names in English. language is ${language.value}, the ${buttonValue}'s role is ${role.value}.`;
+    getName(); // 요청 보내기
+  } else {
     printErrorMessage("inputErr");
   }
 });
