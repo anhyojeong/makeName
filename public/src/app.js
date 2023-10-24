@@ -24,7 +24,7 @@ function requestData() {
     prompt: API_prompt,
     max_tokens: 50,
     temperature: 0,
-    top_p: 1,
+    top_p: 0.8,
     n: 1,
     stream: false,
     logprobs: null,
@@ -35,6 +35,9 @@ function requestData() {
 
 // api 호출
 function getName() {
+  const loadingDiv = document.getElementById("loading");
+  loadingDiv.style.display = "block";
+
   const body = requestData(); // body
 
   fetch(`${API_URL}`, {
@@ -47,6 +50,8 @@ function getName() {
   })
     .then((response) => response.json())
     .then((result) => {
+      // 요청이 완료된 후 로딩 화면 숨김
+      loadingDiv.style.display = "none";
       if (result && result.choices && result.choices.length > 0) {
         setNameList(result.choices[0].text); // api 요청 결과 보여주기
       } else {
@@ -79,7 +84,7 @@ function printErrorMessage(errType) {
   }
 
   list.appendChild(span);
-  span.id = "errMsg";
+  span.class = "msg";
 }
 
 // 받아온 이름들 분리

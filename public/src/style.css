@@ -1,69 +1,107 @@
-:root{
-    /*색*/
-    --navy:#212A3E;
-    --light-navy:#394867;
-    /*크기*/
-    --margin: 10px;
-     --font-size: 15px;
+:root {
+  /*색*/
+  --navy: #212a3e;
+  --light-navy: #394867;
+  /*크기*/
+  --margin: 10px;
+  --font-size: 15px;
 }
 
-*{
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--navy);
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  color: var(--navy);
 }
 
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-h1{
-    color: var(--navy) ;
+h1 {
+  color: var(--navy);
 }
-.inputText{
-    border : none;
-    border-bottom: 1px solid var(--navy);
-    margin: var(--margin);
+.inputText {
+  border: none;
+  border-bottom: 1px solid var(--navy);
+  margin: var(--margin);
 }
-.inputText:focus{
-    border: none;
-    cursor: pointer;
-    outline: none;
-    border-bottom: 1px solid var(--navy);
+.inputText:focus {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border-bottom: 1px solid var(--navy);
 }
-button{
-    border-radius: 10px;
-    border: none;
-    font-size: var(--font-size) ;
-    padding: 3px 20px;
-    color: var(--light-navy);
+button {
+  border-radius: 10px;
+  border: none;
+  font-size: var(--font-size);
+  padding: 3px 20px;
+  color: var(--light-navy);
 }
 /*입력*/
-.inputArea{
-    margin-top: calc(var(--margin)*2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--light-navy);
+.inputArea {
+  margin-top: calc(var(--margin) * 2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--light-navy);
 }
 
 /*출력된 이름*/
-#nameList{
-    margin:calc(var(--margin)) var(--margin);
+#nameList {
+  margin: var(--margin) var(--margin);
 }
 
-#saveApiMsg, #errMsg{
-    display: inline-block;
+.msg {
+  display: inline-block;
+  text-align: center;
+  color: var(--light-navy);
+  font-size: 0.8em;
+}
+
+.inputApiArea {
+  display: flex;
+  align-items: center;
+}
+
+.makeBtn {
+  margin: calc(var(--margin) * 2) var(--margin);
+}
+
+/* 로딩 */
+#loading {
     text-align: center;
-    color: var(--light-navy);
-    font-size: 0.8em;
+}
+.line {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 15px;
+  background-color: var(--light-navy);
+  margin-bottom: var(--margin);
+}
+#loading .line:nth-child(1) {
+  animation: loading 0.6s 0.1s linear infinite;
+}
+#loading .line:nth-child(2) {
+  animation: loading 0.6s 0.2s linear infinite;
+}
+#loading .line:nth-child(3) {
+  animation: loading 0.6s 0.3s linear infinite;
 }
 
-.inputApiArea{
-    display: flex;
-    align-items: center;
+@keyframes loading {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 12px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
-.makeBtn{
-    margin:calc(var(--margin)*2) var(--margin);
+#loadMsg{
+    display: block;
 }
